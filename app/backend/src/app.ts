@@ -29,6 +29,8 @@ class App {
   }
 }
 
+// init project
+
 export { App };
 
 // A execução dos testes de cobertura depende dessa exportação
