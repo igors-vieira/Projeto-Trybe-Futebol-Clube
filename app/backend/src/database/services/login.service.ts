@@ -13,7 +13,7 @@ export default class LoginServices implements ILoginService {
   async getId(id: number): Promise<IUsers> {
     const user: IUsers | null = await this.usersModel.findOne({ where: { id } });
 
-    if (!user) throw new GetterErrors('dont find Id', 401);
+    if (!user) throw new GetterErrors('don\'t find Id', 401);
 
     return user;
   }
