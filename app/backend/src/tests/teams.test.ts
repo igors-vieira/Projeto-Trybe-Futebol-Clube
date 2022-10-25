@@ -32,15 +32,6 @@ describe('testando a rota /Teams', () => {
     expect(chaiHttpResponse.status).to.be.equal(200) 
     expect(chaiHttpResponse.body).to.be.deep.equal(teams) 
    });
-
-  it('quando a rota "get" e feita e da erro', async () => {
-    chaiHttpResponse = await chai
-    .request(app)
-    .get('/teams')
-
-    expect(chaiHttpResponse.status).to.be.equal(500)
-   });
-
   afterEach(()=>{
     (Teams.findAll as sinon.SinonStub).restore();
   })
@@ -49,27 +40,28 @@ describe('testando a rota /Teams', () => {
   describe('verificando a rota "/Teams/:id"', () => {
   let chaiHttpResponse: Response;
 
-  beforeEach(async () => {
+  it('quando a rota "get" feita corretamente', async () => {
     sinon
       .stub(Teams, 'findOne' )
         .resolves(teams[4] as Teams)
-    });
-
-  it('quando a rota "get" feita corretamente', async () => {
+        
     chaiHttpResponse = await chai
     .request(app)
-    .get('/teams')
+    .get('/teams/5')
 
     expect(chaiHttpResponse.status).to.be.equal(200) 
     expect(chaiHttpResponse.body).to.be.deep.equal(teams[4]) 
    });
 
   it('quando a rota "get" e feita e da erro', async () => {
+    sinon
+      .stub(Teams, 'findOne' )
+        .resolves(null)
     chaiHttpResponse = await chai
     .request(app)
-    .get('/teams')
+    .get('/teams/999')
 
-    expect(chaiHttpResponse.status).to.be.equal(500)
+    expect(chaiHttpResponse.status).to.be.equal(404)
    });
 
   afterEach(()=>{
