@@ -5,12 +5,6 @@ import { ILoginService } from '../models/entites/ILogin';
 
 const { JWT_SECRET } = process.env;
 
-interface authId extends Request {
-  user: {
-    id: number
-  }
-}
-
 export default class LoginController {
   private readonly loginService: ILoginService;
   constructor(loginService: ILoginService) {
@@ -18,7 +12,7 @@ export default class LoginController {
   }
 
   async getId(req: Request, res: Response) {
-    const { id } = req.body.user;
+    const { id } = req.body.user ? req.body.user : req.params;
 
     const { role } = await this.loginService.getId(Number(id));
 
@@ -34,5 +28,3 @@ export default class LoginController {
     res.status(200).json({ token });
   }
 }
-
-export { authId };

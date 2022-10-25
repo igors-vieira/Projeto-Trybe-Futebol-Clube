@@ -1,3 +1,4 @@
+import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
@@ -20,28 +21,35 @@ describe('testando a rota login', () => {
     sinon
       .stub(User, "findOne")
       .resolves({
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc"
+        id: 1,
+        email: "admin@admin.com",
+        password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW",
+        username: "Admin",
+        role: "admin"
       } as unknown as User);
+      sinon
+        .stub(jwt , 'sign')
+        .returns('token' as never)
   });
-
-  afterEach(()=>{
-    (User.findOne as sinon.SinonStub).restore();
-  })
 
   it('deve retorna um status 200', async () => {
     chaiHttpResponse = await chai
       .request(app)
       .post('/login')
       .send({
-        "email": "string",
-        "password": "string"
+        email: "admin@admin.com",
+        password: "secret_admin"
       })
 
      expect(chaiHttpResponse.status).to.be.equal(200)
-     expect(chaiHttpResponse.body).to.be.deep.equal({
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc"
-    })
+     expect(chaiHttpResponse.body).to.be.deep.equal({ token: 'token'})
    });
+
+  afterEach(()=>{
+    (jwt.sign as sinon.SinonStub).restore();
+    (User.findOne as sinon.SinonStub).restore();
+  })
+
   })
   describe('quando o email ou senha não foi passado corretamente', () => {
   let chaiHttpResponse: Response;
@@ -50,7 +58,11 @@ describe('testando a rota login', () => {
     sinon
       .stub(User, "findOne")
       .resolves({
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc"
+        id: 1,
+        email: "admin@admin.com",
+        password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW",
+        username: "Admin",
+        role: "admin"
       } as unknown as User);
   });
 
@@ -97,7 +109,7 @@ describe('testando a rota login', () => {
       .request(app)
       .post('/login')
       .send({
-        "email": "emailInexistente",
+        "email": "admin@admin.com",
         "password": "sen",
       } )
 
