@@ -57,9 +57,9 @@ describe('testando a rota "/matches"', () => {
    });
 
   it('deve retorna as partidas com isProgress: true', async () => {
-    sinon
-      .stub(Matches, "findAll")
-      .resolves(falseProgress as unknown as Matches[]);
+    // sinon
+    //   .stub(Matches, "findAll")
+    //   .resolves(falseProgress as unknown as Matches[]);
 
     chaiHttpResponse = await chai
       .request(app)
@@ -71,7 +71,7 @@ describe('testando a rota "/matches"', () => {
    });
 
   afterEach(()=>{
-    (Matches.findAll as sinon.SinonStub).restore();
+    // (Matches.findAll as sinon.SinonStub).restore();
     })
   })
 });
