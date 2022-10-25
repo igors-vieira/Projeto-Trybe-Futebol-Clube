@@ -9,8 +9,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Authorization');
   if (!token) throw new GetterErrors('Token not found', 401);
 
-  const decored = jwt.verify(token, JWT_SECRET as jwt.Secret);
-
-  req.body.user = decored;
-  return next();
+  try {
+    const payload = jwt.verify(token, JWT_SECRET as jwt.Secret);
+    req.body.user = payload;
+    return next();
+  } catch (error) {
+    throw new GetterErrors('Token must be a valid token', 401);
+  }
 };
