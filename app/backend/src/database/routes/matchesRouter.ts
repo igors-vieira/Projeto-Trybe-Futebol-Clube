@@ -12,6 +12,8 @@ router.get('/matches', (req, res) => (!req.query.inProgress ? matchesController
   .getAllMatches(req, res) : matchesController
   .getByQuery(req, res)));
 
+router.get('/leaderboard/home', (req, res) => matchesController.LeaderboardHome(req, res));
+
 router.post('/matches', tokenMiddleware, (req, res) => matchesController.createMatches(req, res));
 
 router.patch('/matches/:id/finish', (req, res) => matchesController

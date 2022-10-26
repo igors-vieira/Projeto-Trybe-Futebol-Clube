@@ -1,15 +1,19 @@
 import MatchesModel from '../models/Matches';
 import Teams from '../models/Teams';
+import Sequelize from '../models/index';
 import 'express-async-errors';
 import GetterErrors from '../utils/GetterErrors';
-import IUpdateMatch from '../models/entites/IMatches';
+import IUpdateMatch, { ILeaderboardHome } from '../models/entites/IMatches';
+import BigQuery from './query/query';
 
 const IdNotFound = 'There is no team with such id!';
 
 export default class MatchesServices {
   private matchesModel;
+  private sequelize;
   constructor() {
     this.matchesModel = MatchesModel;
+    this.sequelize = Sequelize;
   }
 
   static async getIdTeam(id: number) {
@@ -69,5 +73,11 @@ export default class MatchesServices {
     if (!hasTeam) throw new GetterErrors(IdNotFound, 404);
 
     await this.matchesModel.update({ inProgress: 0 }, { where: { id } });
+  }
+
+  async LeaderboardHome(): Promise<ILeaderboardHome[]> {
+    const [Team] = await this.sequelize.query(BigQuery);
+
+    return Team as ILeaderboardHome[];
   }
 }

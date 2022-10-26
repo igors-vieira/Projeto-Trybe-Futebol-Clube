@@ -45,4 +45,10 @@ export default class MatchesController {
 
     return res.status(200).json({ message: 'goals updated' });
   }
+
+  async LeaderboardHome(_req: Request, res: Response) {
+    const LeaderboardHome = await this.matchesService.LeaderboardHome();
+
+    return res.status(200).json(LeaderboardHome);
+  }
 }
