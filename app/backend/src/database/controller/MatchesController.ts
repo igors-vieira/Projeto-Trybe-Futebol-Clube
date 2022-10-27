@@ -51,4 +51,16 @@ export default class MatchesController {
 
     return res.status(200).json(LeaderboardHome);
   }
+
+  async LeaderboardAway(_req: Request, res: Response) {
+    const LeaderboardHome = await this.matchesService.LeaderboardAway();
+
+    return res.status(200).json(LeaderboardHome);
+  }
+
+  async LeaderboardAll(_req: Request, res: Response) {
+    const LeaderboardHome = await this.matchesService.LeaderboardAll();
+
+    return res.status(200).json(LeaderboardHome);
+  }
 }

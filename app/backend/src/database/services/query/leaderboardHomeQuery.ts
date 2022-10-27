@@ -1,4 +1,7 @@
-const BigQuery = `SELECT t.team_name as 'name',Sum(CASE
+const BigQuery = `
+SELECT 
+  t.team_name as 'name',
+  Sum(CASE
   WHEN m.home_team_goals > m.away_team_goals THEN 3
   WHEN m.home_team_goals < m.away_team_goals THEN 0
   ELSE 1

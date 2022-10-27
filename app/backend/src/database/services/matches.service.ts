@@ -4,7 +4,9 @@ import Sequelize from '../models/index';
 import 'express-async-errors';
 import GetterErrors from '../utils/GetterErrors';
 import IUpdateMatch, { ILeaderboardHome } from '../models/entites/IMatches';
-import BigQuery from './query/query';
+import BigQueryLHome from './query/leaderboardHomeQuery';
+import BigqueryLAway from './query/leaderboardAwayQuery';
+import LeaderboardAllQuery from './query/leaderboardAllQuery';
 
 const IdNotFound = 'There is no team with such id!';
 
@@ -76,7 +78,19 @@ export default class MatchesServices {
   }
 
   async LeaderboardHome(): Promise<ILeaderboardHome[]> {
-    const [Team] = await this.sequelize.query(BigQuery);
+    const [Team] = await this.sequelize.query(BigQueryLHome);
+
+    return Team as ILeaderboardHome[];
+  }
+
+  async LeaderboardAway(): Promise<ILeaderboardHome[]> {
+    const [Team] = await this.sequelize.query(BigqueryLAway);
+
+    return Team as ILeaderboardHome[];
+  }
+
+  async LeaderboardAll(): Promise<ILeaderboardHome[]> {
+    const [Team] = await this.sequelize.query(LeaderboardAllQuery);
 
     return Team as ILeaderboardHome[];
   }

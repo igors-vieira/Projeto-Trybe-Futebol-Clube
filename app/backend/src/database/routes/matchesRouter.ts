@@ -14,6 +14,10 @@ router.get('/matches', (req, res) => (!req.query.inProgress ? matchesController
 
 router.get('/leaderboard/home', (req, res) => matchesController.LeaderboardHome(req, res));
 
+router.get('/leaderboard/away', (req, res) => matchesController.LeaderboardAway(req, res));
+
+router.get('/leaderboard/', (req, res) => matchesController.LeaderboardAll(req, res));
+
 router.post('/matches', tokenMiddleware, (req, res) => matchesController.createMatches(req, res));
 
 router.patch('/matches/:id/finish', (req, res) => matchesController
