@@ -51,8 +51,6 @@ export default class MatchesServices {
     const { homeTeam, awayTeam } = matches;
     const home = await MatchesServices.getIdTeam(homeTeam);
     const away = await MatchesServices.getIdTeam(awayTeam);
-    console.log(home);
-    console.log(away);
 
     if (!home || !away) throw new GetterErrors(IdNotFound, 404);
     if (homeTeam === awayTeam) {
