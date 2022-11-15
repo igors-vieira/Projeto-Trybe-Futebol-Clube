@@ -40,7 +40,7 @@ Na sua máquina você deve ter:
 
 ```
 git clone git@github.com:igors-vieira/Projeto-Trybe-Futebol-Clube.git
-cd trybe-futebol-clube
+cd Projeto-Trybe-Futebol-Clube/
 ```
 
 ## Instalando Dependências
